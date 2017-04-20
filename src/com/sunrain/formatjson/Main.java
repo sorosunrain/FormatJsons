@@ -46,8 +46,9 @@ public class Main {
 		this.outputPath = outputPath;
 
 		try {
-			System.setErr(new PrintStream(
-					new File(String.format("%s/../log_%d.txt", outputPath, System.currentTimeMillis()))));
+			File logFile = new File(String.format("%s/../output/log_%d.txt", outputPath, System.currentTimeMillis()));
+			logFile.getParentFile().mkdirs();
+			System.setErr(new PrintStream(logFile));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -60,6 +61,8 @@ public class Main {
 		content = getUrlAndReplace2LocalPath(content);
 		// 保存新生成的json
 		saveJson(file.getName(), content);
+		// 退出
+		System.exit(0);
 	}
 
 	private String getFileContent(File file) {
